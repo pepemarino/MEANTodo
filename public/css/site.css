@@ -1,0 +1,8 @@
+.completed { text-decoration: line-through; color: #ccc; }
+.space { margin-left: 20px;}
+.completespace { margin-bottom: 20px; margin-top: 20px; }
+.input-large { height: 50px; margin-bottom: 10px; line-height: 30px; padding: 11px 19px; font-size: 25px; }
+@media screen and (max-width: 767px) { 
+    .input-large { margin-bottom: 10px; line-height: 1.4; font-size: 16px; }
+    .btn-lg { width: 100%; }
+}
