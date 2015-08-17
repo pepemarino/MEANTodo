@@ -34,15 +34,10 @@ var todoController = function(Todo){
 			}
 		});
 	};
-	
-	var remove = function(req, res){
 		
-	};
-	
 	return {
 		post: post,
-		get: get,
-		remove: remove
+		get: get
 	}
 };
 

@@ -36,7 +36,7 @@ app.use(session({
 app.use(flash());
 */
 var todoRouter = require('./routes/todoRoutes')(Todo);
-app.use('/api', todoRouter);
+app.use('/api/todos/', todoRouter);
 
 app.get("*", function(req, res){
 	res.render('index');	

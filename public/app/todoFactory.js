@@ -19,8 +19,12 @@ app.factory('todoFactory', ['$http', function($http){
 		return $http.post(baseUrl, newTodo);
 	};
 	
-	service.deleteTodos = function(){
-		
+	service.deleteDoneTodos = function(){
+		return $http.get(baseUrl + '/purge/');
+	};
+	
+	service.toggleCompleted = function(todo){
+		return $http.put(baseUrl + '/' + todo._id, todo);
 	};
 	
 	return service;
