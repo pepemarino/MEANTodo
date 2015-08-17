@@ -67,11 +67,11 @@ var todoController = function(Todo){
 							if(err){
 								res.status(500).send('TODO remove error ' + err );
 							} else {
-								todoController.get(req, res);
+								get(req, res);
 							}
 						});
 					} else {
-						todoController.get(req, res);
+						get(req, res);
 					}
 				}
 			});
