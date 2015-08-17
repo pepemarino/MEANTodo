@@ -5,29 +5,34 @@ var todoController = function(Todo){
 	
 	var post = function(req, res){
 		var todo = new Todo(req.body);
-	    todo.save(function(err){
+		var query = { title: todo.title };
+		Todo.find(query, function (err, todos){
 			if(err){
-				res.status(500).send(err);
+				res.status(500).send('TODO could not be saved ' + err );
 			} else {
-				res.status(201).send(todo);
+				if(todos.length === 0){
+					todo.save(function(err){
+						if(err){
+							res.status(500).send(err);
+						} else {
+							res.status(201).send(todo);
+						}
+					});		
+				} else {
+					res.status(409).send({ title: todo.title, message : 'TODO already exists'});
+				}
 			}
 		});
 	};
 	
 	var get = function(req, res){
-		
-		var todos = [
-			{
-				title: 'First todo',
-				completed: false
-			},
-			{
-				title: 'Second todo',
-				completed: false
+		Todo.find({}, function(err, todos){
+			if(err){
+				res.status(500).send('TODO Error getting TODOs ' + err );
+			} else {
+				res.send(todos);
 			}
-		];
-		res.json(todos);
-		
+		});
 	};
 	
 	var remove = function(req, res){

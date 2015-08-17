@@ -11,8 +11,12 @@ app.factory('todoFactory', ['$http', function($http){
 		return $http.get(baseUrl);
 	};
 	
-	service.addTodo = function(todo){
-		
+	service.addTodo = function(todoStr){
+		var newTodo = {
+			title: todoStr,
+			completed : false
+		};
+		return $http.post(baseUrl, newTodo);
 	};
 	
 	service.deleteTodos = function(){

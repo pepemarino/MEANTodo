@@ -13,6 +13,7 @@ body(ng-app='app')
 				form.form(name='frm' ng-submit='addTodo()')
 					input.form-control.input-large(name='newTodo', type='text', ng-model='newTodo', placeholder="Your ToDo Text", required)
 					button.btn-lg.btn-primary(ng-class="{'btn-info disabled': frm.$invalid}"    ng-disabled='frm.$invalid') Add
+					p.text-warning(ng-show="{ error != null && newTodo !== '' }") {{ error }}
 				button.btn-lg.btn-primary.completespace(ng-click='clearCompleted()') Clear Completed
 			div.list-group
 				.list-group-item(ng-repeat='todo in todos')
