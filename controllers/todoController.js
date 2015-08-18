@@ -76,9 +76,14 @@ var todoController = function(Todo){
 				}
 			});
 		};
+	
+	var remove = function(req, res){
 		
+	};
+	
 	return {
 		purge: purge,
+		remove: remove,
 		update: update,
 		post: post,
 		get: get

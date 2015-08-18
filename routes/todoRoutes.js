@@ -13,9 +13,7 @@ var routes = function(Todo){
 	
 	todoRouter.route('/:todoId')
 		.put(todoController.update)
-		.delete(function(req, res){
-			
-		});
+		.delete(todoController.remove);
 		
 	todoRouter.route('/purge')
 		.get(todoController.purge);
