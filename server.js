@@ -6,16 +6,7 @@ var express = require('express'),
 	http = require('http'),
 	mongoose = require('mongoose'),
 	bodyParser = require('body-parser'),
-	Todo = require('./models/Todo'),
-	cookieParser = require('cookie-parser'),
-	session = require('express-session'),
-	flash = require('connect-flash');
-
-mongoose.connect('mongodb://localhost/todo');
-var con = mongoose.connection;
-con.once('open', function(){
-	console.log('Connected to mongodb successfull');	
-});
+	Todo = require('./models/Todo');
 
 var app = express();
 
@@ -26,15 +17,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-/* 
-app.use(cookieParser);
-app.use(session({
-	secret: 'MUGToDo',
-	resave: true,
-    saveUninitialized: true
-}));
-app.use(flash());
-*/
+
 var todoRouter = require('./routes/todoRoutes')(Todo);
 app.use('/api/todos/', todoRouter);
 
@@ -42,6 +25,21 @@ app.get("*", function(req, res){
 	res.render('index');	
 });
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app).listen(app.get('port'), function(){
 	console.log('Express server listening on port ' + app.get('port'));	
+});
+
+var io = require('socket.io')(server);
+
+mongoose.connect('mongodb://localhost:27017/todo');
+var con = mongoose.connection;
+
+con.on('error', console.error.bind(console, 'connection error:'));
+con.on('close', function(){
+	io.emit('dbConnection', { data: { dbConnection : false }} );
+	console.log('Connectin is close now ' + (new Date()).toLocaleString());
+});
+con.on('connected', function(){
+	io.emit('dbConnection', { data: { dbConnection : true }} );
+	console.log('Connected to mongodb successfull');	
 });

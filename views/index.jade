@@ -1,23 +1,27 @@
 link(rel='stylesheet', href='bower_components/bootstrap/dist/css/bootstrap.min.css')
 link(rel='stylesheet', href='/css/site.css')
-script(type='text/javascript', src='bower_components/angular/angular.js')
-script(type='text/javascript', src='bower_components/angular-resource/angular-resource.js')
-script(type='text/javascript', src='/app/app.js')
-script(type='text/javascript', src='/app/todoFactory.js')
 
 body(ng-app='app')
 	.container
 		h1 MUG TODO Application
 		div(ng-controller='todoController')
-			div
-				form.form(name='frm' ng-submit='addTodo()')
-					input.form-control.input-large(name='newTodo', type='text', ng-model='newTodo', placeholder="Your ToDo Text", required)
-					button.btn-lg.btn-primary(ng-class="{'btn-info disabled': frm.$invalid}"    ng-disabled='frm.$invalid') Add
-					p.text-warning(ng-show="error != null && newTodo != ''") {{ error }}
-				button.btn-lg.btn-primary.completespace(ng-click='clearCompleted()', ng-show="todos.length > 0") Clear Completed
-			div.list-group
-				.list-group-item(ng-repeat='todo in todos')
-					label(for='checkbox')
-						input(name='completed', type='checkbox', ng-model='todo.completed', ng-click='toggleCompleted(todo._id)')
-						span.space.lead.list-group-item-heading(ng-class="{'completed' :todo.completed }") {{ todo.title }}	
+			fieldset(ng-disabled="disconnected != ''")
+				div
+					h3
+						span.label(ng-class="{ 'label-default' : disconnected != '' }") {{ disconnected }} 
+					form.form(name='frm' ng-submit='addTodo()')
+						input.form-control.input-large(name='newTodo', type='text', ng-model='newTodo', placeholder="Your ToDo Text", required)
+						button.btn-lg.btn-primary(ng-class="{'btn-info disabled': frm.$invalid}"    ng-disabled='frm.$invalid') Add
+						p.text-warning(ng-show="error != null && newTodo != ''") {{ error }}
+					button.btn-lg.btn-primary.completespace(ng-click='clearCompleted()', ng-show="todos.length > 0") Clear Completed
+				div.list-group
+					.list-group-item(ng-repeat='todo in todos')
+						label(for='checkbox')
+							input(name='completed', type='checkbox', ng-model='todo.completed', ng-click='toggleCompleted(todo._id)')
+							span.space.lead.list-group-item-heading(ng-class="{'completed' :todo.completed }") {{ todo.title }}	
 				
+script(type='text/javascript', src='bower_components/angular/angular.js')
+script(type='text/javascript', src='bower_components/angular-resource/angular-resource.js')
+script(type='text/javascript', src='/app/app.js')
+script(type='text/javascript', src='/socket.io/socket.io.js')
+script(type='text/javascript', src='/app/todoFactory.js')
