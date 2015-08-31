@@ -35,9 +35,9 @@ mongoose.connect('mongodb://localhost:27017/todo');
 var con = mongoose.connection;
 
 con.on('error', console.error.bind(console, 'connection error:'));
-con.on('close', function(){
+con.on('disconnected', function(){
 	io.emit('dbConnection', { data: { dbConnection : false }} );
-	console.log('Connectin is close now ' + (new Date()).toLocaleString());
+	console.log('Connection is disconnected now ' + (new Date()).toLocaleString());
 });
 con.on('connected', function(){
 	io.emit('dbConnection', { data: { dbConnection : true }} );
