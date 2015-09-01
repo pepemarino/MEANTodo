@@ -9,18 +9,18 @@ validation for data consistency.
 
 ## This is MEAN baby!
 This TODO implementation is a learning tool to illustrate some MongoDB with Mongoose features.  The project 
-will be used as discussion reference at a meetign organized by the Vancouver, British Columbia, Canada, MongoDB 
-User Group (VanMUG).  This README contains some of the highligts of the project and presentation.
+will be used as discussion reference at a meeting organized by the Vancouver, British Columbia, Canada, MongoDB 
+User Group (VanMUG).  This README contains some of the highlights of the project and presentation.
 
 ### Mongoose
 One of the advantages of a JSON document style data store such as MongoDB, besides its scalability and sharding 
 which makes it so convenient for big data, is the fact that MongoDB is a schemaless.  This allows the storage of 
-documents with different sets of fields, with different types for these fields.  This might be convenint for must scenarios
+documents with different sets of fields, with different types for these fields.  This might be convenient for must scenarios
 providing great flexibility because the documents managed by this database become very dynamic in its nature.  However, MongoDB does provide some structure.  For example the system namespace contains an explicit list of our collections and indexes.
 
-This great freedom comes with great responsibility and in the case that a business case calls for the need of a structured model which needs to meet certain validation rules and criterias then our solution needs to come up with a set of metadata rules to describe and validate the data.  It would be convenient if we could use in our solution the help of a framework to help us add schema and data validation so we could concentrate on our business solution.
+This great freedom comes with great responsibility and in the case that a business case calls for the need of a structured model which needs to meet certain validation rules and criteria then our solution needs to come up with a set of metadata rules to describe and validate the data.  It would be convenient if we could use in our solution the help of a framework to help us add schema and data validation so we could concentrate on our business solution.
 
-Such help comes from Mongoose.  Mongoose provides a straight-forward, schema-based solution to model our application data. It includes built-in type casting, built-in and cyustom validation, query building, etc.
+Such help comes from Mongoose.  Mongoose provides a straight-forward, schema-based solution to model our application data. It includes built-in type casting, built-in and custom validation, query building, etc.
 
 In this project Mongoose is used to provide a Todo schema model, data validation, custom-data validation.  There are other ways to validate data by subscribing to Mongoose pre-save events but this technique is not used in this project
 
@@ -60,10 +60,9 @@ This module exports the controller which returns an object with five properties 
 At this time remove is empty.
 
 ### JavaScript with Angular, and Jade View
-JavaScript code is organized in two files: app.js and todoFactory.js.  app.js contains the Angular app and the controller.  The controller gets injected two factories.  These factories are todoFactory responsible for interacting with the RESTfull express service and socketFactory responsible for registereing to socket.io notifications.
+JavaScript code is organized in two files: app.js and todoFactory.js.  app.js contains the Angular app and the controller.  The controller gets injected two factories.  These factories are todoFactory responsible for interacting with the RESTfull express service and socketFactory responsible for registering to socket.io notifications.
 
 The view contains a fieldset container where a form and collection of TODOs are placed.  The field set is bound to a scope property which is set depending on the notification sent via socket.io.  
-
 
 ## Contributing
 
