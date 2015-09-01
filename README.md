@@ -25,9 +25,45 @@ Such help comes from Mongoose.  Mongoose provides a straight-forward, schema-bas
 In this project Mongoose is used to provide a Todo schema model, data validation, custom-data validation.  There are other ways to validate data by subscribing to Mongoose pre-save events but this technique is not used in this project
 
 ### Mongoose Events
-When creating a connection to the MongoDB database using Mongoose this project register to events such as "error", "connected", and "disconnected".  We register to these events in server.js.  The disconnected event handler uses sokect.io to notify registered clients that TODOs cannot be process.  Clients are also notified when the connection is restablished or the first time Mongoose connects to MongoDB.
+The server code registers for three Mongoose events.  These events are "connected", "error", and "disconnected".  Handlers of these event listeners notify connected users using socket.io for the client to react accordingly.  Here is the summary:
 
-On the client side an Angular sockectFactory registers to a socket.io event and in the case that the connection has been lost then all page elements are disabled.  These elements are enabled as soon as the client is notified, via sokect.io, that the TODO processing can continue. 
+| Event          | Handler                                          |
+|---------------|------------------------------------------------|
+| 'error' | console log the error and socket.io emit a JSON message with dbConnection set to false  |
+| 'connected'        | console log satisfactory connection and emit a JSON message with dbConnection set to true  |
+| 'disconnected'        | console log error and emit JSON message with dbConnection set to false |
+
+### Express REST
+En Express route handles all REST requests. Controller functions are responsible of the especific work.  This is the summary:
+
+| Route | Verb | Controller Action |
+|-------|------|-------------------|
+| route('/') | post | todoController.post  to creates a new Todo |
+|            | get | todoController.get  gets all TODOs |
+| route('/:todoId') | put | todoController.update currently the only update setting completed to true  |
+|                |  delete | todoController.remove |
+| route('/purge') | get | todoController.purge to removed all TODOs which are completed |
+
+### todoController Mongoose Usage
+This module exports the controller which returns an object with five properties which are the five operations that the controller is responsible for.  This is the summary of Mongoose calls on the Todo Schema:
+
+| Controller Method | Todo | Comment |
+|-------------------|------|---------|
+| post | find(query, callback| Initially the method executes a search.  query contains the query filter. If the query does not find a match then in the callback a save is executed |
+|  | save(callback) | if the item is not found then the save is called |
+| get | find(query, callback) | this method attemps to get all TODOs.  Note that a query object can be passed and it the query is empty ({}) then all items are returned to the callback |
+| update | findById(id, callback | We are attempting to do an update.  If the item is found then the item is passed to the callback where the item is updated and saved |
+|  | save(callback) | saves updated item |
+| purge | find(query, callabck) | filters the collection fo Todo for { completed: true  }.  The filtered collection is passed to the callback |
+|  | remove( { _id: { $in: doneTodos }}, callback) | The $in operator selects the documents where the value of a field equals any value in the specified array of Todos which have completed ===  true then we call remove on them.  |
+
+At this time remove is empty.
+
+### JavaScript with Angular, and Jade View
+JavaScript code is organized in two files: app.js and todoFactory.js.  app.js contains the Angular app and the controller.  The controller gets injected two factories.  These factories are todoFactory responsible for interacting with the RESTfull express service and socketFactory responsible for registereing to socket.io notifications.
+
+The view contains a fieldset container where a form and collection of TODOs are placed.  The field set is bound to a scope property which is set depending on the notification sent via socket.io.  
+
 
 ## Contributing
 
